@@ -49,13 +49,4 @@ def gues():
         
     return THESCORE
 
-       
-    
-"""
-testing 
-b = "a"
-c = 4+4
-c = str(c)
-print (c + b)
 
-"""
