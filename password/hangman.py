@@ -122,14 +122,14 @@ with open('words.txt') as words:
     words = words.read()
     words = words.split('\n')
 
-def givehint(subs,word,length, hintcount):    
+def givehint(word,length, hintcount):    
     clues = input("would you like a clue\n1 for no,any for yes")
     if clues != "1":
         hintcount += 1
         while True:
             a = random.choice(range(length))
             thehint = word[a]
-            if thehint not in subs:
+            if thehint not in HANG.subs:
                 break
         bb = []
         for i in range(length):
@@ -138,47 +138,60 @@ def givehint(subs,word,length, hintcount):
                 
                         
         for i in bb:
-            subs[i] = thehint
+            HANG.subs[i] = thehint
      
-    print("".join(subs))
+    print("".join(HANG.subs))
     
         
 def playing():
     play = input("\n1 for exit, any for play\n")
     return play
 
-def asterisks(subs):
+def asterisks():
     
-    print("\nThe word is:  "+''.join(subs))
+    print("\nThe word is:  "+''.join(HANG.subs))
 
-def guessing(attempts,subs):
+def guessing(attempts):
     global guess
     while True:
+        symbol = False
         guess = input("Your guess is:\n  ")
         if guess in attempts:
             print("you already tried that")
-   
-        if guess not in string.ascii_letters:
-            print("no symbol or letters")
-        if guess in subs and guess != "*":
+        for i in guess:
+            if i not in string.ascii_letters:
+                symbol = True
+        if symbol == True:
+            print("no symbol or number")
+        if guess in HANG.subs and guess != "*":
             print("you already got that!")
-        if guess in string.ascii_letters and len(guess) == 1 and guess not in subs and guess not in attempts:
+        if len(guess) > HANG.length:
+            print("that is longer than the actual word is")
+        if symbol == False and guess not in HANG.subs and guess not in attempts:
             attempts.append(guess)
             break
          
-def judge(word,subs,length):
+def judge(word,length):
     global guess
-    if guess in word:
+    
+    if guess.lower() == word:
+        HANG.subs = word
+        print(f"woeeee...ya the word was {word}")
+       
+    elif guess.lower() in word and len(guess) == 1:
         indexsofletter = []
         for i in range(length):
-            if word[i] == guess:
+            if word[i] == guess.lower():
                 indexsofletter.append(i)
 
         for i in indexsofletter:
-            subs[i] = guess
+            HANG.subs[i] = guess.lower()
         time.sleep(0.5)
         print("nice you got it")
         
+    elif guess.lower() in word:
+        print("one letter at a time,,, or if you so good, guess the whole word")
+        print("I wont tell you if thats right or wrong.....")
     else:
         time.sleep(0.5)
         print("nope u didnt get it")
@@ -193,12 +206,13 @@ def hangman():
 def HANG():
     THESCORE = 0
     while True:
+        
         play = playing()
         if play != '1':
-
+            print("Guess one letter at a time, \nOr guess the whole word if you are 'So gOoD")
             word = random.choice(words)
-            length = len(word)
-            subs = [ "*" for i in range(length)]
+            HANG.length = len(word)
+            HANG.subs = [ "*" for i in range(HANG.length)]
             guess =""
             HANG.hangindex = 0
             attempts = []
@@ -206,32 +220,27 @@ def HANG():
             
             while HANG.hangindex < len(pics)-1:
                 
-                if word == "".join(subs)and hintcount > length -2:
+                if word == "".join(HANG.subs)and hintcount > HANG.length -2:
                     print(f"you won... but with {hintcount} hints...only 15 points earned")
                     play = playing()
                     THESCORE += 15
                     break
-                elif word == "".join(subs):
+                elif word == "".join(HANG.subs):
                     print("you won, and earned 25 points")
                     
                     THESCORE += 25
                     break
                 hangman()
-                asterisks(subs)
-                givehint(subs,word,length,hintcount)
-                if "".join(subs) != word:
+                asterisks()
+                givehint(word,HANG.length,hintcount)
+                if "".join(HANG.subs) != word:
                     print(word)
-                    guessing(attempts,subs)
-                    judge(word,subs,length)
+                    guessing(attempts)
+                    judge(word,HANG.length)
         else:
             print(f"okay, you earned {THESCORE} points")
             return THESCORE
             break
-
-
-
-
-
 
 
 
