@@ -1,46 +1,54 @@
-"""1 pm, 11/24/2019
-guess the number project#1"""
-
 
 from random import randint
 from time import sleep
-
+import string
 THESCORE = 0
 def gues():
     global THESCORE
     while True:
         print ("Guess the a number btwn 1 - 20, if you guess it right you get 5 points towards your account")
 
-        wrong = ["goodshit, that mean u aint so gay aft all","good one... rise of homophobes!!!", "yeye miss us wit those gay shit"]
+        wrong = ["good try... you didnt get it tho","mhm, not quite"]
         chances = 3
         cn = randint(1,20)
         quit = False
         while chances > 0 and quit != "y":
             print ("okay so you have "+str(chances)+" chances")
-            ug = int(input("guess a fkin number or ur balls are gone:____"))
+            while True:    
+                ug = input("guess a number (1-20 inclusive):____")
+                check = [str(i) for i in range(21)]
+                
+                if ug in string.ascii_letters:
+                    print("no letters")
+                    
+                if ug in "`~!@#$%^&*()+_-=<>?,./{}[]\|":
+                    print("no symboles")
+                    
+                if ug in check:
+                    break
+                
+                 
             print(cn)
-            if ug > 20 or ug < 0:
-                print ("oh helllnahhh. gtfo u dumbass lmao")
-                break
-            elif cn == ug:
-                    print ("mhmmm, unusually quick... ")
+            
+                
+            if cn == int(ug):
+                    print ("nice you got it right! ")
                     sleep(1)
-                    print ("wel yes the number was "+str(cn)+". you got 5 points")
+                    print ("you got 5 points")
                     THESCORE += 5
                     break
             elif cn != ug:
                     sleep(1)
-                    print (wrong[randint(0,2)]) #has to be len() minus one since len gives the abs, but we count form 0
+                    print (wrong[randint(0,1)]) #has to be len() minus one since len gives the abs, but we count form 0
                     chances -= 1
-                    if chances > 0 and cn < ug:
-                        print ("its a lil smaller")
-                        print ("if you enter somthing bigger i swear")
-                        print ("")
+                    if chances > 0 and cn < int(ug):
+                        print ("its a lil smaller\n")
+                       
                         
-                    elif chances > 0 and cn > ug:
-                        print ("its bigger")
-                        print ("")                
-        quit = input("y for yes, any for no")
+                    elif chances > 0 and cn > int(ug):
+                        print ("its bigger\n")
+                                       
+        quit = input("y for quit, any for stay")
             
         
         if quit == "y":
@@ -48,5 +56,6 @@ def gues():
             break
         
     return THESCORE
+
 
 
