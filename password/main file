@@ -1,8 +1,3 @@
-'''
-Write a programme, which generates a random password for the user. Ask the user how long they want their password
-to be, and how many letters and numbers they want in their
-password. Have a mix of upper and lowercase letters, as well as numbers and symbols. The password should be a minimum of 6 characters long.
-'''
 import time
 import random
 import json
@@ -45,20 +40,20 @@ def woww(enter):
         while attempts < 3 :
         #limits the number of attempts
             print("\nLog in")
-            oun = input("username:  ")
+            woww.oun = input("username:  ")
             opw = input("password:  ")
-            temoun = oun.strip( )
+            temoun = woww.oun.strip( )
             temopw = opw.strip()
             
             if temoun in list(storage.keys()) and temopw == storage[temoun]["password"]:
                 #if the input is a pair within the json file
-                
-                temtime = time.strftime('%X %x')
-                
+
                 if "time" in storage[temoun]:
                 #if it has been logged in before, show "last logged in"
+                    print(f"\n==== {temoun}'s menu ====")
                     print("welcome back master chief")
-                    print(f"last log on was:  {temtime}")
+                    print(f"last log on was:  {storage[temoun]['time']}")
+                    temtime = time.strftime('%X %x')
                 else:
                     print(f"Welcome {temoun}!!")
                 storage[temoun]["time"] = temtime
@@ -79,7 +74,8 @@ def woww(enter):
                     print(f"you have {3-attempts} more attempts")
                     
                 elif attempts == 3:
-                    print("sorry, too many attempts")
+                    print("sorry, too many attempts\nwait 30 seconds")
+                    time.sleep(30)
         
 def generator(length = 2):#this multiplies it by 4 due to the for loop below
     npw = ''
@@ -100,6 +96,7 @@ def start():
 
     
     while True:
+        print("\n=====  MENU  =====")
         enter = input('signup --- S. log in --- L')
         if enter.upper() != "S" and enter.upper() != "L":
             print("Choose to signup or log in")
@@ -108,26 +105,44 @@ def start():
             woww(enter)
             with open('storage.json','w') as a:
                 json.dump(storage, a)
-            #updates the file at the end
-            break
-            
+            #updates it nomatter if the user plays or only signup/logs in
+
 
 def thegames(temoun,temopw):
     global storage
     import subgame
     import hangman
-    thechoice = input("play guess/hang:  ")
-    if thechoice == "guess":
-        thescore = subgame.gues()
-    elif thechoice == "hang":
-        thescore = hangman.HANG()
-    if "score" not in storage[temoun]:
-        storage[temoun]["score"] = thescore
-    else:
-        storage[temoun]["score"] += thescore
-
- 
+    thegames.gamess = True
+   
+    while thegames.gamess == True:
+        thescore = 0
+        while True:
+            thechoice = input("\n||  Play 'guess'/'hang' ||  See 'stats'  ||   Or 'signout'   ||\n   ")
+            if thechoice == 'guess' or thechoice == 'hang' or thechoice == 'stats' or thechoice == 'signout':
+                break
+        if thechoice.lower() == "guess":
+            thescore = subgame.gues()
+        elif thechoice.lower() == "hang":
+            thescore = hangman.HANG()
+        elif thechoice.lower() == 'stats':
+            print(f"Hey master {woww.oun},\nyour total score is {storage[temoun]['score']}!!")
+            time.sleep(2)
+        elif thechoice.lower() == 'signout':
+            thegames.gamess = False
+        if "score" not in storage[temoun]:
+            storage[temoun]["score"] = thescore
+        else:
+            storage[temoun]["score"] += thescore
+        with open('storage.json','w') as a:
+                json.dump(storage, a)
+         #updates the file at the end after each loop
 start()
+
+
+
+
+
+
 
 
 
