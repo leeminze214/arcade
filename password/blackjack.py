@@ -1,4 +1,4 @@
-#april 7th 2020 blackjack
+
 from random import choice
 import time
 
