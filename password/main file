@@ -112,18 +112,21 @@ def thegames(temoun,temopw):
     global storage
     import subgame
     import hangman
+    import blackjack
     thegames.gamess = True
    
     while thegames.gamess == True:
         thescore = 0
         while True:
-            thechoice = input("\n||  Play 'guess'/'hang' ||  See 'stats'  ||   Or 'signout'   ||\n   ")
-            if thechoice == 'guess' or thechoice == 'hang' or thechoice == 'stats' or thechoice == 'signout':
+            thechoice = input("\n||  Play 'guess'/'hang'/'black' ||  See 'stats'  ||   Or 'signout'   ||\n   ")
+            if thechoice == 'guess' or thechoice == 'hang' or thechoice == 'black' or thechoice == 'stats' or thechoice == 'signout':
                 break
         if thechoice.lower() == "guess":
             thescore = subgame.gues()
         elif thechoice.lower() == "hang":
             thescore = hangman.HANG()
+        elif thechoice.lower() == 'black':
+            thescore = blackjack.black()
         elif thechoice.lower() == 'stats':
             print(f"Hey master {woww.oun},\nyour total score is {storage[temoun]['score']}!!")
             time.sleep(2)
