@@ -1,4 +1,3 @@
-
 from random import choice
 import time
 
@@ -35,26 +34,24 @@ def bot():
                     
             black.bottotal += botcard
             print(f"Bot now has {black.bottotal} in hand\n")
+            time.sleep(0.8)
             
         else:
             black.botstop = True
             
     if black.botstop == True:
         print(f"bot stopped at {black.bottotal}\n")
-        
+        time.sleep(0.8)
     
 def user():
     if black.usertotal > 21:
-        black.user_has_stopped = True
-        
+        black.user_has_stopped = True        
         print(f"\nyou have more than 21...")
-        time.sleep(0.8)
         
     while black.user_has_stopped == False and black.usertotal < 21 :
         user.goornot = input('go or no')
         
         if user.goornot == 'go':
-            time.sleep(0.8)
             usercard = choice(black.cards)
             black.cards.remove(usercard)
             
@@ -75,14 +72,13 @@ def user():
 def judge():
     time.sleep(1)
     if abs((21-black.bottotal)) < abs((21-black.usertotal)):
-        return "bot won"
+        return "bot won!"
     
     elif abs((21-black.bottotal)) >  abs((21-black.usertotal)):
-        
-        return "user won"
+        return "you won!"
     
     else:
-        return "tie "
+        return "tie!"
 
     
    
@@ -117,7 +113,7 @@ earn 25 points if you win, earn 10 points if you tie
             if check():
                 break
                 
-        print(judge())
+       
         print(f"you had {black.usertotal}, bot had {black.bottotal}...")
         print(judge())
         
