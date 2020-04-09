@@ -234,7 +234,6 @@ def HANG():
                 asterisks()
                 givehint(word,HANG.length,hintcount)
                 if "".join(HANG.subs) != word:
-                    print(word)
                     guessing(attempts)
                     judge(word,HANG.length)
         else:
