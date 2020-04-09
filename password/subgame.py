@@ -6,7 +6,7 @@ THESCORE = 0
 def gues():
     global THESCORE
     while True:
-        print ("Guess the a number btwn 1 - 20, if you guess it right you get 5 points towards your account")
+        print ("Guess the a number btwn 1 - 20, if you guess it right \nyou get 5 points towards your account")
 
         wrong = ["good try... you didnt get it tho","mhm, not quite"]
         chances = 3
@@ -22,14 +22,10 @@ def gues():
                     print("no letters")
                     
                 if ug in "`~!@#$%^&*()+_-=<>?,./{}[]\|":
-                    print("no symboles")
+                    print("no symbols")
                     
                 if ug in check:
-                    break
-                
-                 
-            print(cn)
-            
+                    break                         
                 
             if cn == int(ug):
                     print ("nice you got it right! ")
