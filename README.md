@@ -1,3 +1,6 @@
 password generator,
 stores username, lastlogged on, score,
-mini games such as hangman and guess the number
+mini games to earn points:
+hangman
+guess the number
+blackjack
