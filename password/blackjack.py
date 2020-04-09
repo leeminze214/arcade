@@ -2,30 +2,43 @@
 from random import choice
 import time
 
-def botace():
-    raise no
+
+def botace(botcard):
+    if botcard == 1:
+        if black.bottotal + 11 > 17 and black.bottotal + 11 < 24:
+            print("bot got an ACE, bot wants it to be 11")
+            return True
+        else:
+            print("bot got an ACE, bot wants it to be 1")
+            return False
+   
+
 def userace(usercard):
-    raise no
+    if usercard == 1:
+       print("you've got an ACE")
+       ace = input("enter '1' to keep it as one, or *any* to switch it to 11")
+       if ace != '1':
+           return True
 
 def bot():
     if black.botstop == False:
         if black.user_has_stopped == True and abs(21-black.bottotal) < abs(21-black.usertotal) \
            or black.user_has_stopped == False and black.bottotal > 16:
-            
             black.botstop = True
             
         elif black.bottotal < 21 and abs(21-black.bottotal) > abs(21-black.usertotal)\
            or black.bottotal < 16:
             botcard = choice(black.cards)
             black.cards.remove(botcard)
-            #if botace(botcard):
-            #   botcard = 11
+            if botace(botcard):
+               botcard = 11
                     
             black.bottotal += botcard
             print(f"Bot now has {black.bottotal} in hand\n")
             
         else:
             black.botstop = True
+            
     if black.botstop == True:
         print(f"bot stopped at {black.bottotal}\n")
         
@@ -44,21 +57,20 @@ def user():
             time.sleep(0.8)
             usercard = choice(black.cards)
             black.cards.remove(usercard)
-            #if userace(usercard):
-            #   usercard = 11
+            
+            if userace(usercard):
+               usercard = 11
             
             black.usertotal += usercard
             print(f"\nyou have now {black.usertotal} in hand")
             break
+            
         elif user.goornot == 'no':
             black.user_has_stopped = True
             break
     
     
         
-def stopped():       
-    if black.botstop == True and black.user_has_stopped == True:
-        return True
 
 def judge():
     time.sleep(1)
@@ -71,13 +83,12 @@ def judge():
     
     else:
         return "tie "
-        
-def twen():
-    if black.usertotal == 21 or black.bottotal == 21:
-        return True
+
     
+   
 def check():
-    if twen() == True or stopped() == True:
+    if black.usertotal == 21 or black.bottotal == 21 or black.botstop == \
+       True and black.user_has_stopped == True:
         return True
     
 def black():
@@ -96,8 +107,7 @@ earn 25 points if you win, earn 10 points if you tie
         black.user_has_stopped = False
         black.botstop = False
         
-        while True:
-            
+        while True:         
             if check():
                 break
             user()
@@ -106,9 +116,17 @@ earn 25 points if you win, earn 10 points if you tie
             bot()
             if check():
                 break
+                
         print(judge())
-        if judge() != 2:
-            black.score+=100
+        print(f"you had {black.usertotal}, bot had {black.bottotal}...")
+        print(judge())
+        
+        if judge() == "you won!":
+            black.score+=25
+            
+        elif judge() == "tie!":
+            black.score += 15
+
         choi = input("\n1 to leave, any to stay")
         if choi == "1":
             play = False
