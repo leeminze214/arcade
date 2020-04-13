@@ -2,22 +2,19 @@ from random import choice
 import time
 
 
-def botace(botcard):
+def ace(botcard,usercard):
     if botcard == 1:
         if black.bottotal + 11 > 17 and black.bottotal + 11 < 24:
             print("bot got an ACE, bot wants it to be 11")
-            return True
+            return 'acebot'
         else:
             print("bot got an ACE, bot wants it to be 1")
             return False
-   
-
-def userace(usercard):
     if usercard == 1:
        print("you've got an ACE")
        ace = input("enter '1' to keep it as one, or *any* to switch it to 11")
        if ace != '1':
-           return True
+           return 'aceuser'
 
 def bot():
     if black.botstop == False:
@@ -29,7 +26,7 @@ def bot():
            or black.bottotal < 16:
             botcard = choice(black.cards)
             black.cards.remove(botcard)
-            if botace(botcard):
+            if ace(botcard,None) == 'acebot':
                botcard = 11
                     
             black.bottotal += botcard
@@ -55,7 +52,7 @@ def user():
             usercard = choice(black.cards)
             black.cards.remove(usercard)
             
-            if userace(usercard):
+            if ace(None,usercard) == 'aceuser':
                usercard = 11
             
             black.usertotal += usercard
@@ -65,9 +62,7 @@ def user():
         elif user.goornot == 'no':
             black.user_has_stopped = True
             break
-    
-    
-        
+      
 
 def judge():
     time.sleep(1)
@@ -103,26 +98,17 @@ earn 25 points if you win, earn 10 points if you tie
         black.user_has_stopped = False
         black.botstop = False
         
-        while True:         
-            if check():
-                break
+        while True:                     
             user()
             if check():
                 break 
             bot()
             if check():
                 break
-                
-       
+
         print(f"you had {black.usertotal}, bot had {black.bottotal}...")
         print(judge())
-        
-        if judge() == "you won!":
-            black.score+=25
-            
-        elif judge() == "tie!":
-            black.score += 15
-
+        black.score +=25 if judge() == "you won!" else 15 if judge() =="tie!" else 0
         choi = input("\n1 to leave, any to stay")
         if choi == "1":
             play = False
